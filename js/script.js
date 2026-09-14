@@ -66,11 +66,15 @@ function displayExpenses() {
             <td>RM ${expense.amount.toFixed(2)}</td>
             <td>${expense.category}</td>
             <td>${expense.date}</td>
-            <td>
-                <button onclick="deleteExpense(${expense.id})">
-                    Delete
-                </button>
-            </td>
+<td>
+    <button onclick="editExpense(${expense.id})">
+        Edit
+    </button>
+
+    <button onclick="deleteExpense(${expense.id})">
+        Delete
+    </button>
+</td>
         `;
 
         expenseList.appendChild(row);
@@ -100,3 +104,49 @@ function deleteExpense(id) {
 categoryFilter.addEventListener("change", function () {
     displayExpenses();
 });
+
+function editExpense(id) {
+    const expense = expenses.find(function (expense) {
+        return expense.id === id;
+    });
+
+    if (!expense) {
+        return;
+    }
+
+    const newName = prompt("Enter the expense name:", expense.name);
+
+    if (newName === null) {
+        return;
+    }
+
+    const newAmount = prompt("Enter the amount (RM):", expense.amount);
+
+    if (newAmount === null) {
+        return;
+    }
+
+    const newCategory = prompt(
+        "Enter the category:",
+        expense.category
+    );
+
+    if (newCategory === null) {
+        return;
+    }
+
+    const newDate = prompt("Enter the date:", expense.date);
+
+    if (newDate === null) {
+        return;
+    }
+
+    expense.name = newName;
+    expense.amount = parseFloat(newAmount);
+    expense.category = newCategory;
+    expense.date = newDate;
+
+    saveExpenses();
+    displayExpenses();
+    updateTotal();
+}
