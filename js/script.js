@@ -39,16 +39,26 @@ function saveExpenses() {
 }
 
 function displayExpenses() {
+    const selectedCategory = categoryFilter.value;
+
+    let expensesToDisplay = expenses;
+
+    if (selectedCategory !== "All") {
+        expensesToDisplay = expenses.filter(function (expense) {
+            return expense.category === selectedCategory;
+        });
+    }
+
     expenseList.innerHTML = "";
 
-    if (expenses.length === 0) {
+    if (expensesToDisplay.length === 0) {
         noExpensesMessage.style.display = "block";
         return;
     }
 
     noExpensesMessage.style.display = "none";
 
-    expenses.forEach(function (expense) {
+    expensesToDisplay.forEach(function (expense) {
         const row = document.createElement("tr");
 
         row.innerHTML = `
@@ -88,45 +98,5 @@ function deleteExpense(id) {
 }
 
 categoryFilter.addEventListener("change", function () {
-    const selectedCategory = categoryFilter.value;
-
-    if (selectedCategory === "All") {
-        displayExpenses();
-        return;
-    }
-
-    const filteredExpenses = expenses.filter(function (expense) {
-        return expense.category === selectedCategory;
-    });
-
-    displayFilteredExpenses(filteredExpenses);
+    displayExpenses();
 });
-
-function displayFilteredExpenses(filteredExpenses) {
-    expenseList.innerHTML = "";
-
-    if (filteredExpenses.length === 0) {
-        noExpensesMessage.style.display = "block";
-        return;
-    }
-
-    noExpensesMessage.style.display = "none";
-
-    filteredExpenses.forEach(function (expense) {
-        const row = document.createElement("tr");
-
-        row.innerHTML = `
-            <td>${expense.name}</td>
-            <td>RM ${expense.amount.toFixed(2)}</td>
-            <td>${expense.category}</td>
-            <td>${expense.date}</td>
-            <td>
-                <button onclick="deleteExpense(${expense.id})">
-                    Delete
-                </button>
-            </td>
-        `;
-
-        expenseList.appendChild(row);
-    });
-}
