@@ -160,3 +160,37 @@ th {
         min-width: 650px;
     }
 }
+
+/* Action Buttons */
+
+td button {
+    padding: 8px 12px;
+    margin-right: 5px;
+    font-size: 14px;
+}
+
+td button:first-child {
+    background-color: #f39c12;
+}
+
+td button:first-child:hover {
+    background-color: #d68910;
+}
+
+td button:last-child {
+    background-color: #e74c3c;
+}
+
+td button:last-child:hover {
+    background-color: #c0392b;
+}
+
+/* Table Improvements */
+
+tbody tr:hover {
+    background-color: #f8f9fa;
+}
+
+td {
+    vertical-align: middle;
+}
